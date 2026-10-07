@@ -69,8 +69,34 @@ function expenseaAdd(newExpense) {
     expenseIcon.setAttribute("src", `img/${newExpense.category_id}.svg`);
     expenseIcon.setAttribute("alt", newExpense.category_name);
 
+    // Criando a info da despesa
+    const expenseInfo = document.createElement("div");
+    expenseInfo.classList.add("expense-info");
+
+    // Criando o nome da despesa
+    const expenseName = document.createElement("strong");
+    expenseName.textContent = newExpense.expense;
+
+    // Criando a categoria da despesa
+    const expenseCategory = document.createElement("span");
+    expenseCategory.textContent = newExpense.category_name;
+
+    //adiciona nome e categoria na div das informações da despesa
+    expenseInfo.append(expenseName, expenseCategory);
+
+    //Cria o valor da despesa
+    const expenseAmount = document.createElement("small");
+    expenseAmount.classList.add("expense-amount");
+    expenseAmount.innerHTML = `<small>R$</small>${newExpense.amount.toUpperCase().replace("R$", "")}`;
+
+    //Criando o ícone para remover um item
+    const removeIcon = document.createElement("img");
+    removeIcon.classList.add("remove-icon");
+    removeIcon.setAttribute("src", "img/remove.svg");
+    removeIcon.setAttribute("alt", "remover");
+
     //Adiciona as informações no item.
-    expenseItem.append(expenseIcon);
+    expenseItem.append(expenseIcon, expenseInfo, expenseAmount, removeIcon);
 
     //adiciona o item na lista
     expenseList.append(expenseItem);
