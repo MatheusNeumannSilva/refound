@@ -1,8 +1,11 @@
-//Seleciona os elemntos do formulário.
+// Busca no HTML os elementos do formulário que serão usados no JavaScript.
 const form = document.querySelector("form");
 const amount = document.getElementById("amount"); //pegando o elemento do formulario pelo ID - (Valor da despesa)
 const expense = document.getElementById("expense");
 const category = document.getElementById("category");
+
+// Busca no HTML a lista onde as despesas serão adicionadas.
+const expenseList = document.querySelector("ul");
 
 /*esse evento fica observando toda vez que entrar algum conteudo ali no nosso input.
 Toda vez que ele acontecer, ele disparara esse evento.
@@ -15,10 +18,10 @@ a ultima parte do codigo ele esta pegando o value ja formatado.
 (CAPTURANDO O EVENTO DE INPUT PARA FORMATAR O VALOR)
 */
 amount.oninput = () => {
-  //OBTÉM O VALOR DO INPUT E REMOVE OS CARACTERES NÃO NÚMERICOS
+  //OBTÉM O VALOR DO INPUT E REMOVE OS CARACTERES NÃO NÚMERICOS, Pega o valor digitado e remove tudo que não for número.
   let value = amount.value.replace(/\D/g, "");
 
-  //Transforma o valor em centavos. (exemplo se voce pegar 150 e dividir por 100 = 1.50 que é equivalente a R$1,50)
+  //Transforma o valor em centavos. (exemplo se voce pegar 150 e dividir por 100 = 1.50 que é equivalente a R$1,50) Converte o texto em número e divide por 100 para considerar os centavos.
   value = Number(value) / 100;
 
   //ATUALIZA O VALOR DO INPUT
@@ -48,7 +51,7 @@ form.onsubmit = (event) => {
     category_id: category.value,
     category_name: category.options[category.selectedIndex].text, //pegando as opções que tem dentro do category, mas eu nao quero todas, quero a selecionada por isso eu to pegando o selectedIndex do category e eu quero o texto q ta ali
     amount: amount.value,
-    create_at: new Date(""),
+    create_at: new Date(),
   };
 
   //chama a função que ira adicionar o item na lista
@@ -60,6 +63,17 @@ function expenseaAdd(newExpense) {
     //Cria o elemento para adicionar o item (li) na lista (ul).
     const expenseItem = document.createElement("li");
     expenseItem.classList.add("expense"); //colocando class no elemento dinamicamente com js
+
+    // Cria o icone da categoria
+    const expenseIcon = document.createElement("img");
+    expenseIcon.setAttribute("src", `img/${newExpense.category_id}.svg`);
+    expenseIcon.setAttribute("alt", newExpense.category_name);
+
+    //Adiciona as informações no item.
+    expenseItem.append(expenseIcon);
+
+    //adiciona o item na lista
+    expenseList.append(expenseItem);
   } catch (error) {
     alert("Não foi possivel atualizar a lsita de despesas.");
     console.log(error);
