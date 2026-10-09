@@ -6,6 +6,7 @@ const category = document.getElementById("category");
 
 // Busca no HTML a lista onde as despesas serão adicionadas.
 const expenseList = document.querySelector("ul");
+const expensesQuantity = document.querySelector("aside header p span");
 
 /*esse evento fica observando toda vez que entrar algum conteudo ali no nosso input.
 Toda vez que ele acontecer, ele disparara esse evento.
@@ -58,6 +59,7 @@ form.onsubmit = (event) => {
   expenseaAdd(newExpense);
 };
 
+// Adiciona um novo item a lista
 function expenseaAdd(newExpense) {
   try {
     //Cria o elemento para adicionar o item (li) na lista (ul).
@@ -100,8 +102,33 @@ function expenseaAdd(newExpense) {
 
     //adiciona o item na lista
     expenseList.append(expenseItem);
+
+    //Atualiza os totais
+    updateTotals();
   } catch (error) {
     alert("Não foi possivel atualizar a lsita de despesas.");
     console.log(error);
+  }
+}
+
+//Atualiizar os totais de despesas
+function updateTotals() {
+  try {
+    //Recupera todos os itens que sao (li) da nossa lista que é a (ul)
+    const items = expenseList.children;
+
+    //Atualiza a quantidade de items da lista
+    expensesQuantity.textContent = `${items.length} ${items.length > 1 ? "despesas" : "despesa"}`;
+
+    //Variavel para poder incrementar o total - vamos percorrer cada item que existe dentro dessa lista para ir salvando a somatoria
+    let total = 0;
+
+    //Percorre cada item (li) da lista (ul)
+    for (let item = 0; item < items.length; item++) {
+      const itemAmount = items[item].querySelector(".expense-amount");
+    }
+  } catch (error) {
+    console.log(error);
+    alert("Não foi possível atualizar os totais");
   }
 }
